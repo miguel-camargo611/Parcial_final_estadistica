@@ -1,0 +1,22 @@
+# Lista de Tareas: Parcial Final Estadística
+
+- `[ ]` **Fase 0: Preparación**
+  - `[/]` Crear estructura de carpetas (Data/Raw, Processed, Scripts, Notebooks)
+  - `[ ]` Iniciar borrador del informe (`walkthrough.md`)
+- `[x]` **Fase 1: Ingesta y Cruce Espacial (El Match)**
+  - `[x]` Script `01_process_rmcab.py`: Unificar Excel de contaminación y meteorología por Estación-Hora (2020-2025).
+  - `[x]` Script `02_process_ebird.py`: Calcular Shannon por lista para eBird.
+  - `[x]` Script `03_spatial_match.py`: Cruzar listas de eBird con la estación RMCAB más cercana.
+- `[x]` **Fase 2: Limpieza y EDA**
+  - `[x]` Script `04_prepare_analysis_dataset.py`: Identificación de outliers, transformaciones logarítmicas, estandarización y grupos Q1/Q3.
+  - `[x]` Decisión final de tratamiento de nulos: base principal completa con 10 variables ambientales (6,178 filas).
+  - `[x]` Script `05_distribution_diagnostics.py`: diagnóstico de normalidad y distribuciones.
+  - `[x]` Script `06_eda.py`: descriptivas, comparación Q1/Q3, correlaciones y figuras exploratorias.
+- `[x]` **Fase 3: Distribuciones Conjuntas**
+  - `[x]` Notebook 02: KDE 2D, Elipses de densidad, Normal Bivariada, Condicionales.
+- `[x]` **Fase 4: Inferencia Multivariable**
+  - `[x]` Notebook 03: Test de Mardia, Box's M, Hotelling T2 (Q1 vs Q3 Shannon).
+- `[x]` **Fase 5: Regresión Múltiple**
+  - `[x]` Notebook 04: Ajuste OLS con variables de esfuerzo, VIF, Diagnóstico de residuales.
+- `[x]` **Fase 6: PCA, PPCA y FA**
+  - `[x]` Notebook 05: PCA Biplot coloreado por diversidad, PPCA varianza de ruido, Factor Analysis con Varimax.

@@ -1,0 +1,73 @@
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:          Shannon_Index   R-squared:                       0.289
+Model:                            OLS   Adj. R-squared:                  0.288
+Method:                 Least Squares   F-statistic:                     179.4
+Date:                Sat, 23 May 2026   Prob (F-statistic):               0.00
+Time:                        16:29:54   Log-Likelihood:                -3890.3
+No. Observations:                5298   AIC:                             7807.
+Df Residuals:                    5285   BIC:                             7892.
+Df Model:                          12                                         
+Covariance Type:            nonrobust                                         
+============================================================================================
+                               coef    std err          t      P>|t|      [0.025      0.975]
+--------------------------------------------------------------------------------------------
+const                        2.2024      0.007    317.502      0.000       2.189       2.216
+z_reg_PM2.5                  0.0411      0.012      3.290      0.001       0.017       0.066
+z_reg_PM10                  -0.0207      0.013     -1.638      0.101      -0.046       0.004
+z_reg_NO2                   -0.0234      0.010     -2.334      0.020      -0.043      -0.004
+z_reg_CO                    -0.0293      0.010     -2.889      0.004      -0.049      -0.009
+z_reg_O3                    -0.0316      0.013     -2.522      0.012      -0.056      -0.007
+z_reg_Temperatura           -0.0800      0.015     -5.277      0.000      -0.110      -0.050
+z_reg_Humedad                0.0892      0.016      5.577      0.000       0.058       0.121
+z_reg_Viento                -0.0497      0.009     -5.609      0.000      -0.067      -0.032
+z_reg_Lluvia                -0.0252      0.007     -3.558      0.000      -0.039      -0.011
+z_reg_Radiacion_Solar        0.0273      0.013      2.119      0.034       0.002       0.053
+z_reg_DURATION MINUTES       0.2254      0.008     29.613      0.000       0.211       0.240
+z_reg_EFFORT DISTANCE KM    -0.0573      0.007     -7.857      0.000      -0.072      -0.043
+==============================================================================
+Omnibus:                      595.837   Durbin-Watson:                   1.213
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):             1040.459
+Skew:                          -0.765   Prob(JB):                    1.17e-226
+Kurtosis:                       4.540   Cond. No.                         5.83
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:          Shannon_Index   R-squared:                       0.289
+Model:                            OLS   Adj. R-squared:                  0.288
+Method:                 Least Squares   F-statistic:                     133.4
+Date:                Sat, 23 May 2026   Prob (F-statistic):          1.67e-292
+Time:                        16:29:54   Log-Likelihood:                -3890.3
+No. Observations:                5298   AIC:                             7807.
+Df Residuals:                    5285   BIC:                             7892.
+Df Model:                          12                                         
+Covariance Type:                  HC3                                         
+============================================================================================
+                               coef    std err          t      P>|t|      [0.025      0.975]
+--------------------------------------------------------------------------------------------
+const                        2.2024      0.007    316.859      0.000       2.189       2.216
+z_reg_PM2.5                  0.0411      0.013      3.229      0.001       0.016       0.066
+z_reg_PM10                  -0.0207      0.013     -1.571      0.116      -0.047       0.005
+z_reg_NO2                   -0.0234      0.011     -2.226      0.026      -0.044      -0.003
+z_reg_CO                    -0.0293      0.011     -2.779      0.005      -0.050      -0.009
+z_reg_O3                    -0.0316      0.014     -2.287      0.022      -0.059      -0.005
+z_reg_Temperatura           -0.0800      0.015     -5.287      0.000      -0.110      -0.050
+z_reg_Humedad                0.0892      0.016      5.495      0.000       0.057       0.121
+z_reg_Viento                -0.0497      0.009     -5.508      0.000      -0.067      -0.032
+z_reg_Lluvia                -0.0252      0.007     -3.499      0.000      -0.039      -0.011
+z_reg_Radiacion_Solar        0.0273      0.013      2.099      0.036       0.002       0.053
+z_reg_DURATION MINUTES       0.2254      0.014     16.222      0.000       0.198       0.253
+z_reg_EFFORT DISTANCE KM    -0.0573      0.011     -4.982      0.000      -0.080      -0.035
+==============================================================================
+Omnibus:                      595.837   Durbin-Watson:                   1.213
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):             1040.459
+Skew:                          -0.765   Prob(JB):                    1.17e-226
+Kurtosis:                       4.540   Cond. No.                         5.83
+==============================================================================
+
+Notes:
+[1] Standard Errors are heteroscedasticity robust (HC3)

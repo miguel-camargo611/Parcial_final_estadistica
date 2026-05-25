@@ -1,0 +1,231 @@
+﻿
+
+===== Notebooks/02_distribuciones_conjuntas.ipynb =====
+--- celda 0 [markdown] ---
+# Notebook 02 - Distribuciones conjuntas
+
+Fase 3 del proyecto: KDE 2D, elipses de densidad, normal bivariada y distribuciones condicionales. El par bivariado principal es `Temperatura` vs `Humedad`, ambas en escala Z (`z_env_*`). Para las condicionales se usa un indice de contaminacion construido como el promedio de PM2.5, PM10, NO2, CO y O3 estandarizados.
+
+--- celda 1 [code] ---
+from pathlib import Path
+import os
+import importlib.util
+
+ROOT = Path.cwd().parent if Path.cwd().name == 'Notebooks' else Path.cwd()
+os.chdir(ROOT)
+SCRIPT_PATH = ROOT / 'Scripts' / '08_joint_distributions.py'
+
+spec = importlib.util.spec_from_file_location('joint_distributions', SCRIPT_PATH)
+joint = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(joint)
+
+print(SCRIPT_PATH)
+
+--- celda 2 [markdown] ---
+## Datos y variables
+
+Se trabaja sobre `Data/Processed/analysis_env_complete.parquet`, la base ambiental completa. `Lluvia` no entra en este par bivariado porque es binaria; se conserva para fases posteriores si se requiere como covariable categ├│rica.
+
+--- celda 3 [code] ---
+df, pollution_q1, pollution_q3 = joint.prepare_data()
+print(df.shape)
+print('Par bivariado:', joint.BIVAR_Z)
+print('Indice de contaminacion:', joint.POLLUTION_Z)
+print(f'Q1 contaminacion = {pollution_q1:.3f}')
+print(f'Q3 contaminacion = {pollution_q3:.3f}')
+
+--- celda 4 [markdown] ---
+## Resumen numerico
+
+Estos CSV quedan disponibles como insumo directo para el informe final.
+
+--- celda 5 [code] ---
+bivar, conditional = joint.save_summaries(df, pollution_q1, pollution_q3)
+display(bivar.round(3))
+display(conditional.round(3))
+
+--- celda 6 [markdown] ---
+## Figuras
+
+Se generan cuatro salidas en `Figures/Joint_Distributions/`:
+
+1. KDE 2D de temperatura y humedad.
+2. Elipses de densidad empirica al 50%, 80% y 95%.
+3. Comparacion entre densidad observada y normal bivariada ajustada.
+4. Distribucion condicional de Shannon bajo contaminacion baja vs alta.
+
+--- celda 7 [code] ---
+joint.FIG_DIR.mkdir(parents=True, exist_ok=True)
+joint.plot_kde_2d(df)
+joint.plot_density_ellipses(df)
+joint.plot_bivariate_normal(df)
+joint.plot_conditional_shannon(df)
+
+for path in sorted(joint.FIG_DIR.glob('*.png')):
+    print(path)
+
+--- celda 8 [markdown] ---
+## Lectura preliminar
+
+La relacion conjunta entre temperatura y humedad no es perfectamente eliptica: la KDE observada muestra curvatura y zonas de mayor densidad que no quedan capturadas por completo por una normal bivariada simple. Esto respalda la decision metodologica de no depender solo de supuestos gaussianos estrictos en la inferencia multivariable.
+
+En las condicionales, las distribuciones de Shannon para baja y alta contaminacion se solapan fuertemente. La diferencia descriptiva es pequ
+
+
+
+===== Notebooks/03_inferencia_multivariable.ipynb =====
+--- celda 0 [markdown] ---
+# Notebook 03 - Inferencia multivariable
+
+Fase 4 del proyecto: evaluaci├│n de supuestos multivariados y comparaci├│n cl├ísica entre listas de baja diversidad (`Baja_Q1`) y alta diversidad (`Alta_Q3`). En esta etapa se usan ├║nicamente variables ambientales continuas; `Lluvia` se excluye porque es binaria.
+
+--- celda 1 [code] ---
+from pathlib import Path
+import os
+import importlib.util
+
+ROOT = Path.cwd().parent if Path.cwd().name == 'Notebooks' else Path.cwd()
+os.chdir(ROOT)
+SCRIPT_PATH = ROOT / 'Scripts' / '09_multivariate_inference_assumptions.py'
+
+spec = importlib.util.spec_from_file_location('multivar_inference', SCRIPT_PATH)
+multivar = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(multivar)
+
+print(SCRIPT_PATH)
+
+--- celda 2 [markdown] ---
+## Variables
+
+La matriz continua incluye contaminantes y variables meteorol├│gicas continuas en escala Z:
+
+`PM2.5`, `PM10`, `NO2`, `CO`, `O3`, `Temperatura`, `Humedad`, `Viento`, `Radiacion_Solar`.
+
+--- celda 3 [code] ---
+df = multivar.pd.read_parquet(multivar.DATA_PATH)
+groups, low, high = multivar.prepare_groups(df)
+
+print(df.shape)
+print(multivar.Z_CONTINUOUS_ENV_VARS)
+print('Baja_Q1:', low.shape)
+print('Alta_Q3:', high.shape)
+
+--- celda 4 [markdown] ---
+## Supuestos, Hotelling T2 y prueba permutacional
+
+Se eval├║a normalidad multivariada con Mardia, homogeneidad de matrices de covarianza con Box's M, diferencia cl├ísica de centroides con Hotelling T2 y una prueba permutacional de distancia entre centroides.
+
+--- celda 5 [code] ---
+mardia, box_m, hotelling, permutation, means, permuted_distances = multivar.save_results(df, groups, low, high)
+display(mardia.round(4))
+display(box_m.round(4))
+display(hotelling.round(4))
+display(permutation.round(4))
+display(means.round(3))
+
+--- celda 6 [markdown] ---
+## Figuras
+
+Se generan el perfil ambiental medio por grupo, las elipses de confianza al 95% para centroides en el plano temperatura-humedad y la distribuci├│n nula permutacional de la distancia entre centroides.
+
+--- celda 7 [code] ---
+multivar.FIG_DIR.mkdir(parents=True, exist_ok=True)
+multivar.plot_group_profile(means)
+multivar.plot_centroid_confidence_ellipses(groups)
+multivar.plot_permutation_distribution(
+    permuted_distances,
+    permutation.loc[0, 'observed_centroid_distance'],
+)
+
+from IPython.display import Image, display
+for path in sorted(multivar.FIG_DIR.glob('*.png')):
+    print(path)
+    display(Image(filename=str(path)))
+
+--- celda 8 [markdown] ---
+## Lectura preliminar
+
+Los supuestos cl├ísicos no se cumplen: Mardia rechaza normalidad multivariada y Box's M rechaza igualdad de covarianzas entre grupos. Hotelling T2 detecta diferencia de centroides, pero debe reportarse como referencia cl├ísica y no como evidencia ├║nica.
+
+La prueba permutacional compara la distancia observada entre centroides contra distancias obtenidas al re-etiquetar aleatoriamente los grupos. Esta ser├í la evidencia inferencial principal si confirma que la separaci├│n observ
+
+
+
+===== Notebooks/04_regresion_lineal_multiple.ipynb =====
+--- celda 0 [markdown] ---
+# Notebook 04 - Regresi├│n lineal m├║ltiple
+
+Fase 5 del proyecto: modelo OLS para explicar `Shannon_Index` a partir de contaminantes, clima y controles de esfuerzo estandarizados.
+
+--- celda 1 [code] ---
+from pathlib import Path
+import os
+import importlib.util
+
+ROOT = Path.cwd().parent if Path.cwd().name == 'Notebooks' else Path.cwd()
+os.chdir(ROOT)
+SCRIPT_PATH = ROOT / 'Scripts' / '10_multiple_regression.py'
+
+spec = importlib.util.spec_from_file_location('multiple_regression', SCRIPT_PATH)
+reg = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(reg)
+
+print(SCRIPT_PATH)
+
+--- celda 2 [markdown] ---
+## Modelo base
+
+$$Shannon \sim Contaminantes_Z + Clima_Z + Duracion_Z + Distancia_Z$$
+
+Se usa `Data/Processed/analysis_regression_complete.parquet`, que contiene filas completas para las variables ambientales y los controles de esfuerzo.
+
+--- celda 3 [code] ---
+df = reg.load_model_data()
+model, robust_model, x, y = reg.fit_model(df)
+
+print(df.shape)
+print(reg.PREDICTORS)
+
+--- celda 4 [markdown] ---
+## Ajuste y coeficientes
+
+Los predictores est├ín estandarizados, por lo que los coeficientes son comparables en magnitud. Se guardan errores est├índar cl├ísicos y robustos HC3 porque la homocedasticidad debe verificarse.
+
+--- celda 5 [code] ---
+coefficients, vifs, diagnostics = reg.save_results(model, robust_model, x)
+original_scale = reg.save_original_scale_results(df, coefficients)
+sensitivity_model, sensitivity_robust, sensitivity_coefficients, sensitivity_vifs, sensitivity_diagnostics = reg.save_sensitivity_no_humidity(df)
+
+display(diagnostics.round(4))
+display(vifs.round(3))
+display(
+    coefficients[coefficients['term'] != 'const']
+    .sort_values('abs_coef', ascending=False)
+    [['variable', 'coef', 'std_err', 'p_value', 'robu
+
+--- celda 6 [markdown] ---
+## Diagn├│stico de supuestos
+
+- Multicolinealidad: VIF.
+- Homocedasticidad: Breusch-Pagan y residuales vs ajustados.
+- Normalidad de errores: Shapiro-Wilk y QQ-plot.
+- Independencia: Durbin-Watson.
+
+--- celda 7 [code] ---
+reg.FIG_DIR.mkdir(parents=True, exist_ok=True)
+reg.plot_coefficients(coefficients)
+reg.plot_residuals_vs_fitted(model)
+reg.plot_qq(model)
+
+from IPython.display import Image, display
+for path in sorted(reg.FIG_DIR.glob('*.png')):
+    print(path)
+    display(Image(filename=str(path)))
+
+--- celda 8 [markdown] ---
+## Lectura preliminar
+
+El modelo explica una fracci├│n moderada de la variabilidad de Shannon. Los coeficientes m├ís grandes corresponden al esfuerzo de muestreo (`Duracion`) y luego a condiciones ambientales como humedad, temperatura, distancia, viento, PM2.5 y O3.
+
+Los supuestos no se cumplen perfectamente: Breusch-Pagan rechaza homocedasticidad, Shapiro-Wilk rechaza normalidad de errores y Durbin-Watson sugiere autocorrelaci├│n positiva. Por eso la interpretaci├│n debe apoyarse en errores robusto
+

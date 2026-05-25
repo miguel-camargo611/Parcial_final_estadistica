@@ -1,0 +1,2 @@
+n_low,n_high,p,hotelling_t2,f_stat,df1,df2,p_value,reject_equal_centroids_0_05
+1075,1760,9,885.4497955806697,98.10548976410527,9,2825,8.832002504258291e-160,True

@@ -1,0 +1,4 @@
+method,n_components_reported,assumption,variance_or_noise_summary
+PCA,3,Orthogonal directions maximizing variance,PC1-PC3 cumulative variance = 0.806
+PPCA,3,Latent Gaussian components plus isotropic residual noise,sigma2 noise estimate = 0.291
+FA Varimax,3,Latent factors explain shared covariance; uniqueness per variable,mean uniqueness = 0.272

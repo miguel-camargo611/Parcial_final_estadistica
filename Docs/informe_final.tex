@@ -1,0 +1,192 @@
+\documentclass[9pt,letterpaper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{amsmath}
+\usepackage{multicol}
+\usepackage{hyperref}
+
+\geometry{margin=1.35cm}
+\setlength{\parskip}{0.18em}
+\setlength{\parindent}{0pt}
+\captionsetup{font=footnotesize,labelfont=bf}
+\renewcommand{\arraystretch}{1.0}
+
+\title{\vspace{-1.4cm}\textbf{Determinantes ambientales de la diversidad de aves a escala micro-hábitat en Bogotá}}
+\author{Miguel Ángel Camargo Mora}
+\date{Estadística Multivariada y Modelos Lineales Aplicados}
+
+\begin{document}
+\maketitle
+\vspace{-0.85cm}
+
+\begin{abstract}
+\small
+Se integraron registros de eBird con mediciones horarias de la Red de Monitoreo de Calidad del Aire de Bogotá (RMCAB) e IDEAM para estudiar la relación entre diversidad de aves y ambiente urbano. La respuesta fue el índice de Shannon por lista de observación. El análisis combinó EDA, distribuciones conjuntas y condicionales, inferencia multivariable entre grupos extremos de diversidad, regresión lineal múltiple y reducción de dimensión mediante PCA, PPCA y análisis factorial. Los resultados muestran que las listas de alta diversidad se asocian con ambientes más húmedos, fríos, de menor ozono, viento y radiación solar. Como los supuestos gaussianos clásicos fueron rechazados, la evidencia inferencial central se apoyó en permutaciones y errores robustos.
+\end{abstract}
+
+\section{Introducción}
+
+La diversidad urbana de aves está condicionada por procesos ecológicos, meteorológicos, químicos y por sesgos propios de la observación humana. En Bogotá, contaminantes y variables climáticas cambian por estación, hora y zona de la ciudad; por tanto, estudiar variables aisladas puede ocultar patrones multivariados. El objetivo fue evaluar si las condiciones físico-químicas del ambiente se relacionan con la diversidad de aves reportada en ciencia ciudadana.
+
+La pregunta estadística fue: \textit{¿existen diferencias multivariadas en el ambiente asociado a listas de alta y baja diversidad de aves, y qué variables explican mejor la variabilidad del índice de Shannon?} Para responderla se construyó una base evento--ambiente y se aplicaron métodos de estadística multivariada y modelos lineales.
+
+\section{Descripción de datos}
+
+La fuente ecológica fue eBird para Bogotá D.C. entre 2020 y 2025. Se conservaron listas completas y conteos numéricos, descartando registros con abundancias no cuantificadas. Para cada lista se calculó
+\[
+H'=-\sum_i p_i\log(p_i),
+\]
+donde $p_i$ es la abundancia relativa de la especie $i$. También se calculó riqueza de especies y se conservaron duración de observación y distancia recorrida como controles de esfuerzo.
+
+La fuente ambiental fue RMCAB, complementada con IDEAM para precipitación. Se procesaron cinco contaminantes: PM2.5, PM10, NO2, CO y O3; y variables meteorológicas: temperatura, humedad, viento, radiación solar y lluvia. Cada lista se cruzó con la estación más cercana dentro de un radio máximo de 5.5 km y una ventana temporal estricta de aproximadamente $\pm 1$ hora respecto al inicio de observación. La unidad final es una lista eBird con condiciones ambientales asignadas.
+
+\begin{table}[H]
+\centering
+\caption{Bases principales construidas.}
+\footnotesize
+\begin{tabular}{lr}
+\toprule
+Etapa & Filas \\
+\midrule
+Listas eBird viables 2020--2025 & 38,609 \\
+Listas dentro del radio espacial de monitoreo & 33,323 \\
+Base de análisis inicial & 33,308 \\
+Base ambiental completa con 10 variables & 6,178 \\
+Base de regresión con esfuerzo completo & 5,298 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Limpieza y preparación}
+
+Los archivos RMCAB venían en formato ancho, separados por variable, año y estación. Se transformaron a formato largo mediante \textit{melt}, indexado por fecha-hora y estación; luego se normalizaron nombres de estaciones y se consolidaron las variables ambientales. Valores no numéricos o imposibles fueron convertidos a nulos; en CO se detectaron 7 negativos y se eliminaron. La precipitación se codificó como indicador de lluvia por su alta concentración en cero.
+
+Se generaron transformaciones logarítmicas para variables asimétricas, variables estandarizadas $z$ para comparar escalas y marcadores de valores extremos ($|z|>3$). Los grupos de diversidad se definieron por cuartiles de Shannon: baja diversidad ($Q1$), alta diversidad ($Q3$) y grupo intermedio. La base completa de ambiente contiene 6,178 observaciones, con $Q1=1.714$ y $Q3=2.603$ en Shannon dentro de esa matriz.
+
+\section{EDA}
+
+El EDA confirmó asimetría positiva en contaminantes como PM2.5, PM10, CO y O3, típica de episodios urbanos de alta contaminación. Humedad y radiación solar mostraron patrones vinculados al ciclo día/noche; lluvia fue tratada como variable binaria. Las correlaciones principales con Shannon fueron: riqueza de especies ($r=0.846$), temperatura ($r=-0.350$), humedad ($r=0.318$), O3 ($r=-0.297$), viento ($r=-0.276$) y radiación solar ($r=-0.273$). PM2.5 y PM10 tuvieron asociación marginal débil en el análisis bivariado.
+
+La comparación Q1--Q3 mostró perfiles ambientales diferenciados: alta diversidad tuvo menor temperatura media (12.89 vs. 16.80), mayor humedad (75.47 vs. 61.23), menor O3 (7.22 vs. 17.28), menor viento (0.98 vs. 1.68) y menor radiación solar (125.04 vs. 289.87). Además de correlaciones lineales, se inspeccionaron relaciones no lineales mediante LOWESS.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.72\linewidth]{imagenes/eda_q1_q3_boxplots_z.png}
+\caption{Perfil ambiental estandarizado para baja y alta diversidad.}
+\end{figure}
+
+El notebook actualizado de distribuciones conjuntas profundizó el EDA probabilístico. Temperatura y humedad presentaron correlación bivariada fuerte ($\rho=-0.848$). Bajo una normal trivariada temperatura--humedad--Shannon, la distribución condicional estimada fue:
+\[
+E[H'|T,H]=2.112-0.0472(T-14.648)+0.0031(H-69.006),
+\]
+con desviación condicional 0.620 y correlación observado--esperado de 0.353. Para contaminantes, la distribución condicional de Shannon dado PM2.5, PM10, NO2, CO y O3 tuvo $R^2$ descriptivo aproximado de 0.091 y desviación residual 0.632; O3 fue el coeficiente condicional negativo más fuerte ($-0.205$). Esto indica que la contaminación aporta señal, pero no determina por sí sola la diversidad observada.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.72\linewidth]{imagenes/shannon_contaminacion_condicional.png}
+\caption{Shannon observado y esperado según el índice conjunto de contaminación.}
+\end{figure}
+
+\section{Inferencia multivariable}
+
+La inferencia formal comparó únicamente los extremos de diversidad: baja diversidad ($n=1{,}075$) y alta diversidad ($n=1{,}760$). Las observaciones intermedias no se incluyeron en esta prueba. Se usaron nueve variables ambientales continuas estandarizadas: PM2.5, PM10, NO2, CO, O3, temperatura, humedad, viento y radiación solar; lluvia se excluyó por ser binaria.
+
+Mardia rechazó normalidad multivariada en la muestra completa y en ambos grupos ($p<0.001$). Box's M rechazó igualdad de matrices de covarianza entre grupos ($\chi^2=1466.055$, gl=45, $p<0.001$). Hotelling $T^2$ detectó diferencia de centroides ($T^2=885.450$, $F=98.105$, $p<0.001$), pero por violación de supuestos se tomó como referencia clásica. La evidencia principal fue la prueba permutacional de distancia entre centroides, con distancia observada 1.921 y $p=0.001$.
+
+\begin{table}[H]
+\centering
+\caption{Diferencias medias estandarizadas Alta--Baja.}
+\footnotesize
+\begin{tabular}{lrrrr}
+\toprule
+Variable & Alta & Baja & Dif. \\
+\midrule
+Temperatura & -0.437 & 0.535 & -0.972 \\
+O3 & -0.354 & 0.484 & -0.838 \\
+Viento & -0.336 & 0.434 & -0.770 \\
+Radiación solar & -0.363 & 0.388 & -0.751 \\
+NO2 & 0.132 & -0.103 & 0.235 \\
+Humedad & 0.400 & -0.481 & 0.881 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.70\linewidth]{imagenes/snake_plot_final.png}
+\caption{Perfil multivariado medio de alta y baja diversidad.}
+\end{figure}
+
+\section{Regresión}
+
+Se ajustó un modelo lineal con Shannon como respuesta, usando contaminantes, variables meteorológicas y controles de esfuerzo estandarizados:
+\[
+H' \sim \text{contaminantes}_z+\text{clima}_z+\text{duración}_z+\text{distancia}_z.
+\]
+El modelo se estimó con 5,298 observaciones. El ajuste global fue significativo ($F=179.397$, $p<0.001$), con $R^2=0.289$ y $R^2$ ajustado $=0.288$.
+
+\begin{table}[H]
+\centering
+\caption{Coeficientes estandarizados principales con inferencia robusta HC3.}
+\footnotesize
+\begin{tabular}{lrr}
+\toprule
+Variable & Coef. & Valor-p HC3 \\
+\midrule
+Duración & 0.225 & $<0.001$ \\
+Humedad & 0.089 & $<0.001$ \\
+Temperatura & -0.080 & $<0.001$ \\
+Distancia & -0.057 & $<0.001$ \\
+Viento & -0.050 & $<0.001$ \\
+PM2.5 & 0.041 & 0.001 \\
+O3 & -0.032 & 0.022 \\
+CO & -0.029 & 0.005 \\
+Lluvia & -0.025 & $<0.001$ \\
+NO2 & -0.023 & 0.026 \\
+PM10 & -0.021 & 0.116 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Los diagnósticos rechazaron homocedasticidad (Breusch--Pagan $p<0.001$) y normalidad de residuos (Shapiro--Wilk $p<0.001$); Durbin--Watson fue 1.213, compatible con autocorrelación positiva. Por ello, la lectura de significancia se hizo con errores robustos HC3. La humedad tuvo VIF=5.321 y temperatura VIF=4.780, reflejando colinealidad meteorológica. El modelo de sensibilidad sin humedad mantuvo resultados estructurales similares ($R^2$ ajustado 0.284): temperatura se hizo más negativa ($-0.121$), O3 más negativo ($-0.057$), PM2.5 siguió positivo y significativo, y PM10 permaneció negativo pero no significativo. En consecuencia, el material particulado no debe resumirse como un efecto homogéneo: PM2.5 fue positivo en el modelo completo, mientras PM10 fue negativo pero estadísticamente débil.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.70\linewidth]{imagenes/regression_coefficients.png}
+\caption{Magnitud de coeficientes estandarizados del modelo de regresión.}
+\end{figure}
+
+\section{PCA, PPCA y Factor Analysis}
+
+La reducción de dimensión se hizo sobre nueve variables ambientales continuas estandarizadas, sin lluvia ni variables de esfuerzo: PM2.5, PM10, NO2, CO, O3, temperatura, humedad, viento y radiación solar. PCA, PPCA y FA se entrenaron con todos los registros completos. Los grupos baja/alta diversidad se usaron únicamente para interpretar la proyección, no para entrenar los componentes.
+
+PCA retuvo tres componentes porque explican 80.63\% de la variabilidad: PC1=45.87\%, PC2=27.52\%, PC3=7.24\%. PC1 representó un gradiente climático/fotoquímico, con humedad en dirección opuesta a temperatura, O3, viento y radiación. PC2 representó material particulado, dominado por PM2.5 y PM10. PC3 capturó gases de combustión, con señal de NO2 y CO. El biplot y la visualización 3D mostraron que los extremos de diversidad ocupan regiones parcialmente diferenciadas del espacio ambiental.
+
+PPCA formuló la estructura como modelo generativo con tres causas latentes y ruido isotrópico: clima, partículas y gases. La varianza de ruido estimada fue $\sigma^2=0.291$. En la matriz generativa $W$, la dimensión climática aumentó humedad y redujo temperatura/O3/radiación/viento; la dimensión de partículas elevó PM2.5 y PM10; y la de gases elevó NO2 y CO.
+
+En FA con rotación Varimax, los factores quedaron más interpretables: Factor 1 fue material particulado (PM2.5=0.970, PM10=0.802), Factor 2 fue clima/estabilidad térmica (temperatura=0.926, humedad=-0.906, radiación=0.864, O3=0.788), y Factor 3 fue gases locales (NO2=0.711, CO=0.647). La comunalidad promedio fue cercana a 0.728; viento fue la variable peor representada. Además, FA reconstruyó mejor la covarianza que PPCA: error de Frobenius 0.141 frente a 0.385, aunque PCA tuvo el menor MSE de reconstrucción de datos con tres componentes (0.194).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.48\linewidth]{imagenes/pca_biplot_q1_q3.png}
+\includegraphics[width=0.48\linewidth]{imagenes/fa_varimax_loadings.png}
+\caption{Izquierda: biplot PCA por extremos de diversidad. Derecha: cargas factoriales Varimax.}
+\end{figure}
+
+\section{Conclusiones}
+
+Los resultados convergen en una lectura robusta: las listas de alta diversidad se asocian con condiciones más húmedas, más frías y con menor intensidad fotoquímica, especialmente menor O3, viento y radiación solar. La diferencia multivariada entre baja y alta diversidad es clara, pero como se rechazaron normalidad multivariada y homogeneidad de covarianzas, la prueba permutacional es la evidencia inferencial más confiable.
+
+La regresión confirma que el esfuerzo de muestreo es esencial: listas más largas presentan mayor Shannon esperado. Aun controlando por esfuerzo, humedad, temperatura, viento, O3, CO, NO2 y lluvia mantienen asociaciones significativas. La señal de material particulado es menos simple: PM2.5 fue positivo en el modelo completo, mientras PM10 fue negativo pero no robustamente significativo, lo que sugiere colinealidad y mezcla de fuentes ambientales.
+
+PCA, PPCA y FA muestran que el sistema ambiental urbano puede resumirse en tres dimensiones: clima/fotoquímica, partículas y gases de combustión. El estudio es asociativo, no causal; persisten limitaciones por faltantes ambientales, autocorrelación temporal, localización de observadores y detectabilidad. Aun así, la integración eBird--RMCAB--IDEAM permite caracterizar micro-hábitats urbanos y detectar patrones multivariados coherentes para la diversidad de aves en Bogotá.
+
+\end{document}

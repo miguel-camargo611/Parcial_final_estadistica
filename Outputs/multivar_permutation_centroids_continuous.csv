@@ -1,0 +1,2 @@
+n_low,n_high,p,n_permutations,observed_centroid_distance,permutation_p_value,reject_equal_centroids_0_05
+1075,1760,9,5000,1.9209767954324748,0.0001999600079984003,True

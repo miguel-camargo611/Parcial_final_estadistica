@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sustentación Final: Calidad del Aire & Biodiversidad Bogotá 2021</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --eco: #2D5A27;
+      --eco-lt: #E8F5E9;
+      --urb: #455A64;
+      --urb-lt: #ECEFF1;
+      --als: #D32F2F;
+      --als-lt: #FFEBEE;
+      --sky: #0277BD;
+      --sky-lt: #E1F5FE;
+      --bg: #FDFDFD;
+      --tx: #263238;
+      --tm: #546E7A;
+      --ts: #90A4AE;
+      --bd: rgba(0, 0, 0, .08);
+      --bs: 0 4px 20px rgba(0, 0, 0, .04);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--tx);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    section {
+      min-height: 100vh;
+      padding: 4rem 10%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    .cont {
+      max-width: 1100px;
+      margin: 0 auto;
+      width: 100%;
+      z-index: 2;
+    }
+
+    /* Decoration */
+    section::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--bd), transparent);
+    }
+
+    #s0 {
+      background: radial-gradient(circle at 70% 30%, var(--eco-lt) 0%, transparent 40%), radial-gradient(circle at 10% 70%, var(--sky-lt) 0%, transparent 30%);
+    }
+
+    /* Components */
+    .card {
+      background: #fff;
+      border: 1px solid var(--bd);
+      border-radius: 18px;
+      padding: 1.6rem;
+      box-shadow: var(--bs);
+      transition: all .3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, .07);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: .3rem .9rem;
+      border-radius: 100px;
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .b-eco {
+      background: var(--eco-lt);
+      color: var(--eco);
+    }
+
+    .b-als {
+      background: var(--als-lt);
+      color: var(--als);
+    }
+
+    .b-urb {
+      background: var(--urb-lt);
+      color: var(--urb);
+    }
+
+    .b-sky {
+      background: var(--sky-lt);
+      color: var(--sky);
+    }
+
+    h1 {
+      font-size: clamp(3rem, 6vw, 5rem);
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 1rem;
+      color: var(--urb);
+    }
+
+    h2 {
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 800;
+      color: var(--urb);
+      margin-bottom: 1.5rem;
+    }
+
+    .em-e {
+      color: var(--eco);
+      font-weight: 700;
+    }
+
+    .em-u {
+      color: var(--urb);
+      font-weight: 700;
+    }
+
+    .em-a {
+      color: var(--als);
+      font-weight: 700;
+    }
+
+    /* Grid layout */
+    .g-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .g-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .row {
+      display: flex;
+      gap: 2rem;
+      align-items: flex-start;
+    }
+
+    /* Stepper (Horizontal Navigation + Vertical Content) */
+    .stepper {
+      margin: 2rem 0;
+      background: #f9f9f9;
+      border: 1px solid var(--bd);
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .step-item {
+      display: none;
+      padding: 2rem;
+      animation: fiu .4s ease;
+      min-height: 350px;
+    }
+
+    .step-item.on {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* Vertical Content Style */
+    .step-content {
+      border-left: 4px solid var(--eco);
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 0 12px 12px 0;
+      box-shadow: var(--bs);
+      margin-bottom: 1rem;
+    }
+
+    .step-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      color: var(--urb);
+      margin-bottom: .5rem;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+    }
+
+    .step-desc {
+      font-size: .92rem;
+      color: var(--tm);
+      line-height: 1.7;
+    }
+
+    .snav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem 2rem;
+    }
+
+    .sbtn {
+      padding: .6rem 1.2rem;
+      border-radius: 10px;
+      border: 1px solid var(--bd);
+      background: #fff;
+      color: var(--urb);
+      font-size: .85rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      transition: all .22s;
+    }
+
+    .sbtn:hover:not(:disabled) {
+      border-color: var(--eco);
+      color: var(--eco);
+      transform: translateY(-2px);
+    }
+
+    .sbtn:disabled {
+      opacity: .3;
+      cursor: not-allowed;
+    }
+
+    .sdots {
+      display: flex;
+      gap: .6rem;
+    }
+
+    .sdot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--bd);
+      transition: all .3s;
+    }
+
+    .sdot.on {
+      background: var(--eco);
+      transform: scale(1.2);
+    }
+
+    @keyframes fiu {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Map */
+    .map-bg {
+      opacity: .05;
+      position: absolute;
+      right: -5%;
+      top: 10%;
+      width: 40%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Stats */
+    .stat-box {
+      text-align: center;
+    }
+
+    .sn {
+      font-size: 3.2rem;
+      font-weight: 900;
+      color: var(--urb);
+      line-height: 1;
+    }
+
+    .sl {
+      font-size: .78rem;
+      color: var(--tm);
+      font-weight: 700;
+      margin-top: .4rem;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    /* Charts */
+    img.chart {
+      width: 100%;
+      border-radius: 16px;
+      box-shadow: var(--bs);
+      border: 1px solid #eee;
+      background: #fff;
+    }
+
+    .formula {
+      font-family: "Cambria Math", "PT Serif", serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: #222;
+      margin: 0.5rem 0;
+      display: block;
+      text-align: center;
+    }
+
+    .hypothesis-block {
+      background: #fcfcfc;
+      border: 1px solid #ddd;
+      border-left: 5px solid var(--urb);
+      padding: 1.2rem;
+      margin: 1.5rem 0;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    }
+
+    /* APIS */
+    .api-tag {
+      padding: .25rem .75rem;
+      border-radius: 8px;
+      font-size: .7rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      margin-bottom: .8rem;
+    }
+
+    .oaq {
+      background: #E0F2F1;
+      color: #00897B;
+      border: 1px solid #B2DFDB;
+    }
+
+    .eb {
+      background: #FFF3E0;
+      color: #E65100;
+      border: 1px solid #FFE0B2;
+    }
+
+    /* Nav dots */
+    .nd {
+      position: fixed;
+      right: 2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: .9rem;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 2px solid var(--ts);
+      cursor: pointer;
+      transition: all .3s;
+    }
+
+    .dot.on {
+      background: var(--eco);
+      border-color: var(--eco);
+      transform: scale(1.5);
+    }
+
+    /* Questions */
+    .qi {
+      background: #fff;
+      border: 1px solid var(--bd);
+      padding: 1rem 1.6rem;
+      border-radius: 16px;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      box-shadow: var(--bs);
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: all .7s;
+    }
+
+    .qi.vis {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .qi .icon {
+      font-size: 1.8rem;
+    }
+
+    /* Hypotheses */
+    .hyp {
+      font-family: 'Inter', monospace;
+      padding: 1.4rem;
+      border-radius: 16px;
+      background: var(--urb-lt);
+      border-left: 6px solid var(--urb);
+      font-size: .92rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .h1 {
+      border-color: var(--als);
+      background: var(--als-lt);
+      color: var(--als);
+    }
+
+    /* Carousel EDA */
+    .c-eda {
+      position: relative;
+      background: #fdfdfd;
+      border-radius: 20px;
+      padding: 2rem;
+      border: 1px solid var(--bd);
+      overflow: hidden;
+    }
+
+    .sl-set {
+      display: none;
+      animation: fiu .5s ease;
+    }
+
+    .sl-set.on {
+      display: block;
+    }
+
+    .sl-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .sl-title {
+      font-size: .75rem;
+      font-weight: 800;
+      color: var(--ts);
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      border-bottom: 1px solid var(--bd);
+      padding-bottom: .5rem;
+    }
+
+    .sl-label {
+      font-size: .8rem;
+      font-weight: 700;
+      color: var(--tm);
+      margin-bottom: .8rem;
+      text-align: center;
+    }
+
+    /* Bootstrap Box */
+    .boot-box {
+      background: #fff;
+      border: 2px solid var(--sky);
+      border-left: 10px solid var(--sky);
+      border-radius: 16px;
+      padding: 2.5rem;
+      margin: 2.5rem 0;
+      box-shadow: 0 10px 30px rgba(2, 119, 189, 0.08);
+    }
+
+    .boot-box h3 {
+      color: var(--sky);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+    }
+
+    .boot-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+
+    .boot-step {
+      background: var(--sky-lt);
+      padding: 1rem;
+      border-radius: 12px;
+      font-size: .88rem;
+    }
+
+    .boot-tag {
+      font-weight: 900;
+      color: var(--sky);
+      margin-bottom: .4rem;
+      display: block;
+    }
+
+    /* Supuestos Box */
+    .sup-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .sup-card {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 16px;
+      border: 1px solid var(--bd);
+    }
+
+    /* Mobile */
+    @media(max-width:850px) {
+      section {
+        padding: 3.5rem 1.8rem;
+      }
+
+      .row,
+      .g-2,
+      .g-3 {
+        grid-template-columns: 1fr;
+        flex-direction: column;
+      }
+
+      .nd {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="nd" id="navDots">
+    <div class="dot on" onclick="go(0)"></div>
+    <div class="dot" onclick="go(1)"></div>
+    <div class="dot" onclick="go(2)"></div>
+    <div class="dot" onclick="go(3)"></div>
+    <div class="dot" onclick="go(4)"></div>
+    <div class="dot" onclick="go(5)"></div>
+    <div class="dot" onclick="go(6)"></div>
+  </nav>
+
+  <!-- SECCIÓN 0: PORTADA -->
+  <section id="s0">
+    <div class="cont" style="text-align:center;">
+      <div class="badge b-eco">🌿 Sustentación Oficial · Estadística 1</div>
+      <h1>Bogotá:<br><span style="color:var(--eco);">Eco-Auditoría 2021</span></h1>
+      <p
+        style="font-size:1.2rem;color:var(--tm);margin-bottom:2.5rem;max-width:700px;margin-left:auto;margin-right:auto;">
+        Análisis multivariado de la calidad de aire y su impacto en la presencia de <em>Zonotrichia capensis</em> en
+        Bogotá .
+      </p>
+      <div style="font-weight:800;font-size:1.05rem;color:var(--urb);letter-spacing:.08em;">JUEVES 9 DE ABRIL · 5
+        MINUTOS</div>
+      <div style="font-size:.9rem;color:var(--ts);margin-top:.6rem;">Miguel Camargo &ensp;|&ensp; Proyecto de
+        Investigación</div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 1: EL PROBLEMA -->
+  <section id="s1">
+    <div class="cont">
+      <div class="badge b-als">Contexto & Magnitud</div>
+      <h2>Ciudades en Crisis Atmosférica</h2>
+      <div class="g-2" style="margin-bottom: 2rem;">
+        <!-- Emergencia Aire -->
+        <div class="card"
+          style="border-left:8px solid var(--als); display: flex; flex-direction: column; justify-content: center;">
+          <h3 style="color:var(--als);margin-bottom:1rem;">Emergencia de Aire en Bogotá</h3>
+          <p style="font-size:1rem;color:var(--tx);">Bogotá es una de las urbes más grandes de Latinoamérica con
+            <strong>8 millones de habitantes</strong>. Entre 2018-2022, se estiman <strong>13.000 muertes
+              evitables</strong> por concentraciones excesivas de contaminantes (Secretaría Distrital de Salud, 2023).
+          </p>
+        </div>
+
+        <!-- Especie de Estudio -->
+        <div class="card"
+          style="border-left:8px solid var(--eco); display: flex; gap: 1.5rem; align-items: center; padding: 2rem;">
+          <div
+            style="width: 200px; height: 200px; border-radius: 0; overflow: hidden; border: 4px solid var(--eco-lt); box-shadow: var(--bs); flex-shrink: 0; background: #fff;">
+            <img src="imagenes/General/Copeton.png"
+              style="width: 100%; height: 100%; object-fit: cover; object-position: center;" alt="Zonotrichia capensis">
+          </div>
+          <div>
+            <h4 style="color:var(--eco);margin-bottom:.6rem; font-size: 1.2rem;">Especie de Estudio</h4>
+            <p style="font-size:1rem;color:var(--tx); line-height: 1.5;">El <strong>Copetón</strong> (<em>Z.
+                capensis</em>) coexiste en esta selva de cemento: ¿Diferencia este ave los perfiles químicos de la
+              ciudad en su hábitat?</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom: 2rem; border-top: 4px solid var(--tm);">
+        <h3 style="text-align: center; margin-bottom: 1.5rem; color: var(--urb);">Comparativa de Umbrales Críticos</h3>
+        <div class="g-2">
+          <div style="text-align: center;">
+            <p style="font-weight: 700; color: var(--als); margin-bottom: 0.5rem;">Resolución 2254 de 2017 (Nacional)
+            </p>
+            <img src="imagenes/General/Umbrales maximos resolucion 2254 de 2017.png" class="chart"
+              style="max-height: 250px; object-fit: contain;" alt="Umbrales 2017">
+          </div>
+          <div style="text-align: center;">
+            <p style="font-weight: 700; color: var(--sky); margin-bottom: 0.5rem;">Guías OMS 2021 (Global)</p>
+            <img src="imagenes/General/Umbrales OMS.png" class="chart" style="max-height: 250px; object-fit: contain;"
+              alt="Umbrales OMS">
+          </div>
+        </div>
+        <p style="font-size: 0.9rem; color: var(--tm); margin-top: 1rem; text-align: center; font-style: italic;">Nota:
+          Existe una brecha significativa entre la normativa local y las recomendaciones de salud global.</p>
+      </div>
+
+      <div style="margin-bottom:1.5rem;" id="qlist">
+        <div class="g-3">
+          <div class="qi"><span class="icon">🏘️</span><span>¿Cumple Bogotá el estándar de la OMS?</span></div>
+          <div class="qi"><span class="icon">🧭</span><span>¿Es la contaminación heterogénea?</span></div>
+          <div class="qi"><span class="icon">🐦</span><span>¿Su presencia varía según el aire?</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 2: LOS DATOS -->
+  <section id="s2">
+    <div class="cont">
+      <div class="badge b-urb">Metodología Post-Limpieza</div>
+      <h2>Precisión en el Procesamiento</h2>
+      <div class="g-2">
+        <!-- Datos Aire -->
+        <div class="card">
+          <div class="api-tag oaq">● OpenAQ (Aire RMCAB)</div>
+          <h3 style="margin-bottom:.8rem;">Base 1: Auditoría Atmosférica</h3>
+          <p style="font-size:.9rem;color:var(--tm);margin-bottom:1.5rem;">Registros horarios de la RMCAB depurados y
+            promediados diariamente para un análisis multivariado integral.</p>
+          <div class="g-2" style="margin-bottom:1.5rem;">
+            <div class="stat-box">
+              <div class="sn" style="color:var(--urb);">798</div>
+              <div class="sl">Obs. de Aire</div>
+            </div>
+            <div class="stat-box">
+              <div class="sn" style="color:var(--sky);">5</div>
+              <div class="sl">Contaminantes</div>
+            </div>
+          </div>
+          <div style="font-size:.85rem;color:var(--tx);line-height:1.8;">
+            <div
+              style="display:flex;justify-content:space-between;border-bottom:1px solid #eee;padding-bottom:.3rem;margin-bottom:.3rem;">
+              <span>Centro Oriente (C.A.R.)</span> <strong>218</strong>
+            </div>
+            <div
+              style="display:flex;justify-content:space-between;border-bottom:1px solid #eee;padding-bottom:.3rem;margin-bottom:.3rem;">
+              <span>Noroccidente (Fontibón)</span> <strong>195</strong>
+            </div>
+            <div
+              style="display:flex;justify-content:space-between;border-bottom:1px solid #eee;padding-bottom:.3rem;margin-bottom:.3rem;">
+              <span>Suroccidente (Carvajal)</span> <strong>167</strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;"><span>Suroriental (Usme)</span>
+              <strong>218</strong>
+            </div>
+          </div>
+        </div>
+        <!-- Datos Copetón -->
+        <div class="card">
+          <div class="api-tag eb">● eBird (Aves en Ciudad)</div>
+          <h3 style="margin-bottom:.8rem;">Base 2: Inventario de <em>Z. capensis</em></h3>
+          <p style="font-size:.9rem;color:var(--tm);margin-bottom:1.5rem;">Avistamientos geolocalizados vinculados a
+            estaciones por radio de influencia y ventana temporal exacta.</p>
+          <div class="stat-box" style="margin-bottom:1.5rem;">
+            <div class="sn" style="color:var(--eco);">360</div>
+            <div class="sl">Muestras Totales</div>
+          </div>
+          <!-- Desbalance Badge -->
+          <h4 style="font-size:.7rem;text-transform:uppercase;color:var(--tm);margin-bottom:.8rem;text-align:center;">⚖️
+            Balance Muestral Post-Limpieza</h4>
+          <div class="card" style="background:var(--urb-lt);border:none;padding:1.4rem;text-align:center;">
+            <div style="display:flex;justify-content:space-around;font-weight:900;font-size:1.3rem;">
+              <div style="color:var(--eco);">Presencia: 275 <small
+                  style="display:block;font-size:.75rem;font-weight:600;">(76.4%)</small></div>
+              <div style="color:var(--als);">Ausencia: 85 <small
+                  style="display:block;font-size:.75rem;font-weight:600;">(23.6%)</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:2.5rem; border-top:4px solid var(--sky);">
+        <div class="row" style="align-items:center;">
+          <div style="flex:1;">
+            <h3 style="margin-bottom:1.2rem;">Mapa de Gestión RMCAB </h3>
+            <p style="font-size:.95rem;color:var(--tm);margin-bottom:1.5rem;">Cartografía oficial de las localidades de
+              Bogotá con la ubicación real de las 4 estaciones mediante coordenadas geográficas oficiales.</p>
+            <div style="font-size:.9rem;color:var(--tx);">
+              <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:.8rem;"><span
+                  style="width:16px;height:16px;background:var(--als);border-radius:50%;border:2px solid #fff;"></span>
+                <strong>Carvajal-Sevillana:</strong> Punto Crítico (Suroccidente)
+              </div>
+              <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:.8rem;"><span
+                  style="width:16px;height:16px;background:var(--sky);border-radius:50%;border:2px solid #fff;"></span>
+                <strong>Fontibón:</strong> Industrial & Logístico (Noroccidente)
+              </div>
+              <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:.8rem;"><span
+                  style="width:16px;height:16px;background:var(--eco);border-radius:50%;border:2px solid #fff;"></span>
+                <strong>Centro de Alto Rendimiento:</strong> Urbano Central (Centro Oriente)
+              </div>
+              <div style="display:flex;align-items:center;gap:.8rem;"><span
+                  style="width:16px;height:16px;background:var(--urb);border-radius:50%;border:2px solid #fff;"></span>
+                <strong>Usme:</strong> Perfil Rural-Urbano (Suroriente)
+              </div>
+            </div>
+          </div>
+          <div style="flex:1.2;text-align:center;">
+            <img src="mapa.png" style="max-height:520px;border-radius:18px;" alt="Mapa de Localidades Bogotá">
+          </div>
+        </div>
+      </div>
+
+      <!-- NUEVA SUBSECCIÓN: EDA (DESLIZABLE) -->
+      <div class="card" style="margin-top: 2.5rem; border-top: 4px solid var(--eco);">
+        <div class="badge b-eco">📊 Exploración de Datos (EDA)</div>
+        <h3 style="margin-bottom: 2rem;">Análisis de Distribución y Correlación</h3>
+
+        <div class="c-eda" id="eda_carousel">
+          <!-- Slide 1: Kernels -->
+          <div class="sl-set on">
+            <div class="sl-title">Pase 1: Distribución KDE (Kernels)</div>
+            <div class="sl-row">
+              <div>
+                <div class="sl-label">Base 1: Contaminación Atmosférica</div>
+                <img src="imagenes/parte_A/EDA/eda_kde_pollutants.png" class="chart" alt="KDE Aire">
+              </div>
+              <div>
+                <div class="sl-label">Base 2: Presencia vs Ausencia</div>
+                <img src="imagenes/parte_C/EDA/copeton_vs_nocopeton_kde.png" class="chart" alt="KDE Copetón">
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 2: Boxplots -->
+          <div class="sl-set">
+            <div class="sl-title">Pase 2: Variabilidad Multivariada (Boxplots)</div>
+            <div class="sl-row">
+              <div>
+                <div class="sl-label">Base 1: Perfiles por Estación</div>
+                <img src="imagenes/parte_A/EDA/boxplot_pollutants_site.png" class="chart" alt="Boxplots Aire">
+              </div>
+              <div>
+                <div class="sl-label">Base 2: Comparativa de Grupos</div>
+                <img src="imagenes/parte_C/EDA/copeton_vs_nocopeton_boxplot.png" class="chart" alt="Boxplots Copetón">
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 3: Correlaciones -->
+          <div class="sl-set">
+            <div class="sl-title">Pase 3: Estructura de Correlación</div>
+            <div class="sl-row">
+              <div>
+                <div class="sl-label">Base 1: Estabilidad Química</div>
+                <img src="imagenes/parte_A/EDA/correlation_heatmap_site.png" class="chart" alt="Heatmap Aire">
+              </div>
+              <div>
+                <div class="sl-label">Base 2: Relación Aves/Aire</div>
+                <img src="imagenes/parte_C/EDA/correlation_heatmap_birds.png" class="chart" alt="Heatmap Copetón">
+              </div>
+            </div>
+          </div>
+
+          <!-- Nav for EDA Carousel -->
+          <div class="snav" style="margin-top: 2rem; padding-bottom: 0;">
+            <button class="sbtn" onclick="slideEDA(-1)" id="eda_prev" disabled>← Anterior</button>
+            <div class="sdots" id="eda_dots">
+              <div class="sdot on"></div>
+              <div class="sdot"></div>
+              <div class="sdot"></div>
+            </div>
+            <button class="sbtn" onclick="slideEDA(1)" id="eda_next">Siguiente →</button>
+          </div>
+        </div>
+
+        <!-- SUBSECCIÓN: SUPUESTOS -->
+        <div class="sup-box">
+          <div class="sup-card" style="border-left: 5px solid var(--als);">
+            <div style="font-weight: 800; color: var(--als); font-size: 0.85rem; margin-bottom: 0.5rem;">📏 SUPUESTO 1:
+              NORMALIDAD</div>
+            <h4 style="margin-bottom: 0.8rem;">Prueba de Mardia</h4>
+            <p style="font-size: 0.85rem; color: var(--tm);">
+              Se rechazó la normalidad multivariada en todos los grupos ($p < 0.05$). La asimetría y curtosis técnica
+                prohiben el uso de estadísticos paramétricos clásicos, motivando el uso de <strong>Bootstrap</strong> y
+                <strong>Permutación</strong>.
+            </p>
+          </div>
+          <div class="sup-card" style="border-left: 5px solid var(--sky);">
+            <div style="font-weight: 800; color: var(--sky); font-size: 0.85rem; margin-bottom: 0.5rem;">📐 SUPUESTO 2:
+              HOMOCEDASTICIDAD</div>
+            <h4 style="margin-bottom: 0.8rem;">Prueba M de Box</h4>
+            <p style="font-size: 0.85rem; color: var(--tm);">
+              <strong>Estaciones:</strong> Matrices de covarianza heterogéneas ($p < 0.05$).<br>
+                <strong>Biológico:</strong> Se cumplió la igualdad de matrices entre presencia/ausencia, aunque se
+                mantuvo el enfoque robusto por desbalance.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 3: PARTE A - AUDITORÍA -->
+  <section id="s3">
+    <div class="cont">
+      <div class="badge b-als">Parte A: Auditoría Ambiental</div>
+      <h2>El Veredicto de la Calidad del Aire</h2>
+
+      <div class="row">
+        <div style="flex:1.2;">
+          <div class="hyp"><strong>H₀:</strong> μ_sitio = μ_OMS &ensp;(Cumple)</div>
+          <div class="hyp h1" style="margin-bottom: 1rem;"><strong>H₁:</strong> μ_sitio ≠ μ_OMS &ensp;(Rechazo)</div>
+
+          <!-- METODOLOGÍA BOOTSTRAP (SINTETIZADA Y ARRIBA) -->
+          <h4 style="font-size:.85rem;text-transform:uppercase;color:var(--sky);margin-bottom:.8rem;">🎯 Metodología:
+            Bootstrap (T²)</h4>
+          <div class="stepper" id="p_boot"
+            style="background: var(--sky-lt); border-color: var(--sky); margin: 0 0 1.5rem 0;">
+            <!-- Paso 1 -->
+            <div class="step-item on" id="p_boot_0" style="min-height: auto; padding: 1.5rem;">
+              <div class="step-content" style="border-color: var(--sky); margin-bottom: 0;">
+                <div class="step-title" style="font-size: 1rem;"><span>📏</span> P1: T² Observado</div>
+                <div class="step-desc" style="font-size: .85rem;">
+                  Se calcula el estadístico multivariado con los datos reales:
+                  <span class="formula" style="font-size: .95rem; margin: .3rem 0;">T²ₒᵦₛ = n(x̄ - μ₀)ᵀ S⁻¹ (x̄ -
+                    μ₀)</span>
+                </div>
+              </div>
+            </div>
+            <!-- Paso 2 -->
+            <div class="step-item" id="p_boot_1" style="display:none; min-height: auto; padding: 1.5rem;">
+              <div class="step-content" style="border-color: var(--urb); margin-bottom: 0;">
+                <div class="step-title" style="font-size: 1rem;"><span>📐</span> P2: Transformación (H₀)</div>
+                <div class="step-desc" style="font-size: .85rem;">
+                  Se centran los datos al estándar OMS para reflejar la hipótesis nula:
+                  <span class="formula" style="font-size: .95rem; margin: .3rem 0;">Xᵢ* = Xᵢ - x̄ + μ₀</span>
+                </div>
+              </div>
+            </div>
+            <!-- Paso 3 -->
+            <div class="step-item" id="p_boot_2" style="display:none; min-height: auto; padding: 1.5rem;">
+              <div class="step-content" style="border-color: var(--sky); margin-bottom: 0;">
+                <div class="step-title" style="font-size: 1rem;"><span>🔄</span> P3: Remuestreo (B=5,000)</div>
+                <div class="step-desc" style="font-size: .85rem;">
+                  Se generan múltiples muestras aleatorias con reemplazo de X* para recrear la variabilidad simulada.
+                </div>
+              </div>
+            </div>
+            <!-- Paso 4 -->
+            <div class="step-item" id="p_boot_3" style="display:none; min-height: auto; padding: 1.5rem;">
+              <div class="step-content" style="border-color: var(--als); margin-bottom: 0;">
+                <div class="step-title" style="font-size: 1rem;"><span>📈</span> P4: p-valor Empírico</div>
+                <div class="step-desc" style="font-size: .85rem;">
+                  Se mide cuántos estadísticos simulados superan el real:
+                  <span class="formula" style="font-size: .95rem; margin: .3rem 0;">p = [#(T²ᵦ ≥ T²ₒᵦₛ) + 1] / (B +
+                    1)</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="snav" style="padding: 0 1.5rem 1.5rem;">
+              <button class="sbtn" style="padding: .4rem .8rem;" onclick="step('p_boot', -1)" id="p_boot_prev"
+                disabled>← Anterior</button>
+              <div class="sdots" id="p_boot_dots">
+                <div class="sdot on"></div>
+                <div class="sdot"></div>
+                <div class="sdot"></div>
+                <div class="sdot"></div>
+              </div>
+              <button class="sbtn" style="padding: .4rem .8rem;" onclick="step('p_boot', 1)" id="p_boot_next">Siguiente
+                →</button>
+            </div>
+          </div>
+
+          <!-- RESULTADOS (JUSTO DEBAJO DE METODOLOGÍA) -->
+          <div class="card"
+            style="background:#fff9f9; border-color:var(--als); border-left:8px solid var(--als); padding: 1.2rem;">
+            <h4 style="color:var(--als); margin-bottom:.5rem;">Resultados: Test T² de Hotelling</h4>
+            <p style="font-size:.95rem; color:var(--tx); line-height:1.5; margin:0;">
+              Las 4 pruebas arrojaron alta significancia (p=0.0002). Rechazamos el cumplimiento en las zonas
+              monitoreadas. <strong>Bogotá no cumple estándares OMS.</strong>
+            </p>
+          </div>
+        </div>
+
+        <div style="flex:1;">
+          <img src="imagenes/parte_A/resultados/radar_oms.png" class="chart" alt="Radar OMS">
+          <div
+            style="margin-top: 2rem; padding: 1rem; background: #fff; border-radius: 12px; font-size: 0.85rem; border: 1px dashed var(--sky); color: var(--tm);">
+            <strong>💡 Idea clave:</strong> El bootstrap simula el comportamiento del estadístico utilizando la
+            estructura de covarianza real, siendo robusto ante la asimetría de los contaminantes.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 4: PARTE B - ZONIFICACIÓN -->
+  <section id="s4">
+    <div class="cont">
+      <div class="badge b-urb">Parte B: Zonificación Química</div>
+      <h2>Análisis de Disimilitud Inter-Estacional</h2>
+
+      <div class="hypothesis-block">
+        <strong>Planteamiento Formal de Hipótesis:</strong>
+        <span class="formula">H₀: μ₁ = μ₂ = μ₃ = μ₄ &ensp;(Centroides Químicos Idénticos)</span>
+        <span class="formula">H₁: ∃ μᵢ ≠ μⱼ &ensp;(Al menos una estación difiere significativamente)</span>
+      </div>
+
+      <div class="row">
+        <div style="flex:1.1;">
+          <h4 style="font-size:.85rem;text-transform:uppercase;color:var(--tm);margin-bottom:1.2rem;">🧪 Flujo de
+            Inferencia: PERMANOVA</h4>
+
+          <!-- Stepper PERMANOVA -->
+          <div class="stepper" id="p_perm">
+            <!-- Fase 1: Métrica -->
+            <div class="step-item on" id="p_perm_0">
+              <div class="step-content">
+                <div class="step-title"><span>📏</span> Paso 1: Distancia Euclidiana</div>
+                <div class="step-desc">
+                  Calculamos la matriz de disimilitud entre las 798 observaciones usando la norma L2 en el espacio
+                  estandarizado:
+                  <span class="formula">dᵢⱼ² = ||xᵢ - xⱼ||² = Σₖ (xᵢₖ - xⱼₖ)²</span>
+                  Esto cuantifica la "distancia química" pura entre cada día de monitoreo en el espacio de 5
+                  dimensiones.
+                </div>
+              </div>
+            </div>
+            <!-- Fase 2: Partición -->
+            <div class="step-item" id="p_perm_1" style="display:none;">
+              <div class="step-content" style="border-color:var(--sky);">
+                <div class="step-title"><span>📐</span> Paso 2: Partición de Variabilidad</div>
+                <div class="step-desc">
+                  Descomponemos la variabilidad total (SSₜ) en componentes intra-grupo (SS𝓌) y entre-grupos (SSₐ):
+                  <div style="font-size: 0.85rem; margin: 0.8rem 0;">
+                    <span class="formula">SSₜ = Σᵢ Σⱼ (dᵢⱼ² / 2N)</span>
+                    <span class="formula">SS𝓌 = Σₖ Σᵢₖ Σⱼₖ (dᵢⱼ² / 2nₖ)</span>
+                    <span class="formula">SSₐ = SSₜ - SS𝓌</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Fase 3: Pseudo-F -->
+            <div class="step-item" id="p_perm_2" style="display:none;">
+              <div class="step-content" style="border-color:var(--urb);">
+                <div class="step-title"><span>🎲</span> Paso 3: Estadístico Pseudo-F</div>
+                <div class="step-desc">
+                  Construimos un análogo al estadístico F del ANOVA para evaluar la separación de centroides:
+                  <span class="formula">F = [SSₐ / (g - 1)] / [SS𝓌 / (N - g)]</span>
+                  Un valor F elevado indica que la separación entre estaciones supera el ruido interno.
+                </div>
+              </div>
+            </div>
+            <!-- Fase 4: Permutaciones -->
+            <div class="step-item" id="p_perm_3" style="display:none;">
+              <div class="step-content" style="border-color:var(--als);">
+                <div class="step-title"><span>🔄</span> Paso 4: Distribución Monte Carlo</div>
+                <div class="step-desc">
+                  Barajamos aleatoriamente las etiquetas (B = 5,000 veces) para construir una distribución nula
+                  empírica.
+                  Calculamos el p-valor empírico de forma conservadora:
+                  <span class="formula">p = [#(Fₚₑᵣₘ ≥ Fₒᵦₛ) + 1] / (B + 1)</span>
+                </div>
+              </div>
+            </div>
+            <!-- Fase 5: Post-hoc -->
+            <div class="step-item" id="p_perm_4" style="display:none;">
+              <div class="step-content" style="border-color:var(--eco);">
+                <div class="step-title"><span>🔬</span> Paso 5: Decisión & Post-hoc</div>
+                <div class="step-desc">
+                  Rechazamos H₀ si p < α (0.05). Ante significancia global, aplicamos comparaciones por pares con
+                    <strong>Corrección de Bonferroni</strong>:
+                    <span class="formula">α_adj = α / k</span>
+                    Garantizando que la probabilidad de error Tipo I no se infle por múltiples contrastes.
+                </div>
+              </div>
+            </div>
+            <div class="snav">
+              <button class="sbtn" onclick="step('p_perm', -1)" id="p_perm_prev" disabled>← Anterior</button>
+              <div class="sdots" id="p_perm_dots">
+                <div class="sdot on"></div>
+                <div class="sdot"></div>
+                <div class="sdot"></div>
+                <div class="sdot"></div>
+                <div class="sdot"></div>
+              </div>
+              <button class="sbtn" onclick="step('p_perm', 1)" id="p_perm_next">Siguiente →</button>
+            </div>
+          </div>
+
+          <h4 style="font-size:.85rem;text-transform:uppercase;color:var(--tm);margin:2rem 0 1.2rem;">🛡️ Robustez:
+            Hotelling (Permutación)</h4>
+          <div class="stepper" id="p_hot">
+            <div class="step-item on" id="p_hot_0">
+              <div class="step-content" style="border-color:var(--als);">
+                <div class="step-title"><span>🔬</span> Fase 1: Estadístico Observado (T²)</div>
+                <div class="step-desc">
+                  Calculamos la distancia multivariada entre centroides usando la muestra original:
+                  <span class="formula">T² = [N₁N₂/(N₁+N₂)] (x̄₁-x̄₂)ᵀ Sₚ⁻¹ (x̄₁-x̄₂)</span>
+                  Donde <strong>Sₚ</strong> es la matriz de covarianza combinada (pooled).
+                </div>
+              </div>
+            </div>
+            <div class="step-item" id="p_hot_1" style="display:none;">
+              <div class="step-content" style="border-color:var(--urb);">
+                <div class="step-title"><span>🎲</span> Fase 2: Simulación (Permutación)</div>
+                <div class="step-desc">
+                  Bajo <strong>H₀: μ₁ = μ₂</strong>, las etiquetas de grupo son irrelevantes. Barajamos aleatoriamente
+                  las etiquetas de estación entre todas las observaciones para simular el azar.
+                </div>
+              </div>
+            </div>
+            <div class="step-item" id="p_hot_2" style="display:none;">
+              <div class="step-content" style="border-color:var(--sky);">
+                <div class="step-title"><span>⛓️</span> Fase 3: Recálculo Iterativo</div>
+                <div class="step-desc">
+                  Repetimos el proceso <strong>B = 5.000 veces</strong>, calculando un nuevo estadístico
+                  <strong>T²ₚₑᵣₘ</strong> para cada muestra barajada aleatoriamente.
+                </div>
+              </div>
+            </div>
+            <div class="step-item" id="p_hot_3" style="display:none;">
+              <div class="step-content" style="border-color:var(--eco);">
+                <div class="step-title"><span>📊</span> Fase 4: Distribución Nula</div>
+                <div class="step-desc">
+                  Construimos la distribución empírica de todos los <strong>T²ₚₑᵣₘ</strong>. Esto representa todos los
+                  valores de "diferencia" que podrían ocurrir solo por puro azar.
+                </div>
+              </div>
+            </div>
+            <div class="step-item" id="p_hot_4" style="display:none;">
+              <div class="step-content" style="border-color:var(--als);">
+                <div class="step-title"><span>📈</span> Fase 5: p-valor Empírico</div>
+                <div class="step-desc">
+                  Calculamos la proporción de valores aleatorios que superaron al observado (incluyendo ajuste
+                  conservador):
+                  <span class="formula">p = [#(T²ₚₑᵣₘ ≥ T²ₒᵦₛ) + 1] / (B + 1)</span>
+                  Si <strong>p < α</strong>,como sucedio en las 6 pruebas por pares, rechazamos la similitud.
+                </div>
+              </div>
+            </div>
+            <div class="snav">
+              <button class="sbtn" onclick="step('p_hot', -1)" id="p_hot_prev" disabled>← Anterior</button>
+              <div class="sdots" id="p_hot_dots">
+                <div class="sdot on"></div>
+                <div class="sdot"></div>
+                <div class="sdot"></div>
+                <div class="sdot"></div>
+                <div class="sdot"></div>
+              </div>
+              <button class="sbtn" onclick="step('p_hot', 1)" id="p_hot_next">Siguiente →</button>
+            </div>
+          </div>
+        </div>
+        <div style="flex:1.2; display:flex; flex-direction:column; gap:2rem;">
+          <div>
+            <img src="imagenes/parte_B/resultados/mds_bogota_light.png" class="chart" alt="MDS Bogotá">
+            <p style="text-align:center;font-size:.9rem;color:var(--ts);margin-top:.8rem;">
+              <strong>Proyectado MDS (Clusters):</strong> Representación de disimilitud química inter-estacional.
+            </p>
+          </div>
+          <div>
+            <img src="imagenes/parte_B/resultados/radar_zscores.png" class="chart" alt="Radar Z-Scores">
+            <p style="text-align:center;font-size:.9rem;color:var(--ts);margin-top:.8rem;">
+              <strong>Radar de Firmas Químicas:</strong> Comparativa de Z-Scores de contaminantes por zona.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 5: PARTE C - COPETÓN -->
+  <section id="s5">
+    <div class="cont">
+      <div class="badge b-eco">Parte C: Bioindicadores & Resiliencia</div>
+      <h2>Hábitat Atmosférico del Copetón</h2>
+
+      <div class="hypothesis-block">
+        <strong>Planteamiento Formal de Hipótesis:</strong>
+        <span class="formula">H₀: μₚᵣₑₛₑₙcᵢₐ = μₐᵤₛₑₙcᵢₐ &ensp;(Nicho Atmosférico Idéntico)</span>
+        <span class="formula">H₁: μₚᵣₑₛₑₙcᵢₐ ≠ μₐᵤₛₑₙcᵢₐ &ensp;(Presencia dependiente de la Firma Química)</span>
+      </div>
+
+      <div class="card"
+        style="background:#f1f8e9;border:1.5px solid var(--eco);margin-bottom:3rem;border-top:8px solid var(--eco);">
+        <div class="row" style="align-items:center;">
+          <div style="flex:1.8;">
+            <h3 style="color:var(--eco);margin-bottom:1rem;">Resultados Finales: Convergencia de Pruebas</h3>
+            <p style="font-size:1.05rem;color:var(--tx);line-height:1.7;">
+              No existe evidencia significativa de segregación química del hábitat para el Copetón (p > 0.05). <br>
+              <strong>La especie se considera resiliente</strong>: su detección no se ve condicionada estadísticamente
+              por la firma contaminante actual de la ciudad.
+              <br><br>
+              <span
+                style="color:var(--tm);font-size:.9rem;background:rgba(0,0,0,.035);padding:.5rem 1rem;border-radius:8px;display:inline-block;">⚡
+                <strong>Interpretación:</strong> La adaptación evolutiva de <em>Z. capensis</em> le permite colonizar
+                zonas críticas sin comprometer su presencia inmediata.</span>
+            </p>
+          </div>
+          <div style="flex:1;text-align:center;">
+            <div class="badge b-urb" style="display:block;margin-bottom:.8rem;padding:.7rem 1.2rem;">PERMANOVA: p=0.413
+            </div>
+            <div class="badge b-urb" style="display:block;padding:.7rem 1.2rem;">Hotelling: p=0.352</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="justify-content:center;">
+        <div style="max-width:900px;width:100%;">
+          <img src="imagenes/parte_C/resultados/snake_plot.png" class="chart" alt="Snake Plot">
+          <p style="text-align:center;font-size:.9rem;color:var(--ts);margin-top:1.2rem;">
+            <strong>Perfil de Contaminación (Presencia vs Ausencia):</strong> Translape masivo en bandas del 95%.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 6: CONCLUSIONES -->
+  <section id="s6">
+    <div class="cont">
+      <div class="badge b-urb">Cierre del Proyecto</div>
+      <h2>Síntesis Multivariada</h2>
+      <div class="g-3">
+        <div class="card" style="border-top:8px solid var(--als);">
+          <h4 style="color:var(--als);margin-bottom:1rem;">1. Auditoría OMS</h4>
+          <p style="font-size:.92rem;color:var(--tx);">Bogotá incumple integralmente. Carvajal es el punto más
+            contaminado con excedencias críticas de Material Particulado.</p>
+        </div>
+        <div class="card" style="border-top:8px solid var(--urb);">
+          <h4 style="color:var(--urb);margin-bottom:1rem;">2. Segregación</h4>
+          <p style="font-size:.92rem;color:var(--tx);">La ciudad es químicamente heterogénea. Cada estación monitoreada
+            representa un escenario de riesgo único.</p>
+        </div>
+        <div class="card" style="border-top:8px solid var(--eco);">
+          <h4 style="color:var(--eco);margin-bottom:1rem;">3. Resiliencia</h4>
+          <p style="font-size:.92rem;color:var(--tx);">El Copetón demuestra adaptación urbana. Su presencia es estable
+            frente a los actuales gradientes de polución.</p>
+        </div>
+      </div>
+      <div
+        style="margin-top:6rem;text-align:center;color:var(--ts);font-size:.9rem;border-top:1px solid #eee;padding-top:2.5rem;">
+        Proyecto Final · Estadística 1 · 2026
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const sections = ['s0', 's1', 's2', 's3', 's4', 's5', 's6'];
+    const dots = document.querySelectorAll('.dot');
+    function go(i) { document.getElementById(sections[i]).scrollIntoView({ behavior: 'smooth' }); }
+    function updateDots() {
+      const mid = window.innerHeight / 2;
+      sections.forEach((id, i) => {
+        const el = document.getElementById(id); if (!el) return;
+        const r = el.getBoundingClientRect();
+        if (r.top <= mid && r.bottom > mid) { dots.forEach(d => d.classList.remove('on')); dots[i].classList.add('on'); }
+      });
+    }
+    window.addEventListener('scroll', updateDots);
+
+    // Questions entry
+    const qobs = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting) {
+          document.querySelectorAll('.qi').forEach((it, i) => setTimeout(() => it.classList.add('vis'), 400 + i * 400));
+        }
+      });
+    }, { threshold: .5 });
+    qobs.observe(document.getElementById('qlist'));
+
+    // Stepper Logic
+    const stState = {
+      p_perm: { cur: 0, max: 4 },
+      p_hot: { cur: 0, max: 4 },
+      p_boot: { cur: 0, max: 3 }
+    };
+
+    function step(id, dir) {
+      const s = stState[id];
+      const next = s.cur + dir;
+      if (next < 0 || next > s.max) return;
+
+      document.getElementById(id + '_' + s.cur).style.display = 'none';
+      s.cur = next;
+      document.getElementById(id + '_' + s.cur).style.display = 'flex';
+
+      // Update Buttons
+      document.getElementById(id + '_prev').disabled = (s.cur === 0);
+      document.getElementById(id + '_next').disabled = (s.cur === s.max);
+
+      // Update Dots
+      const ds = document.querySelectorAll('#' + id + '_dots .sdot');
+      ds.forEach((d, i) => d.classList.toggle('on', i === s.cur));
+    }
+
+    // EDA Carousel Logic
+    let edaCur = 0;
+    const edaMax = 2;
+    function slideEDA(dir) {
+      const sets = document.querySelectorAll('#eda_carousel .sl-set');
+      sets[edaCur].classList.remove('on');
+      edaCur += dir;
+      sets[edaCur].classList.add('on');
+
+      document.getElementById('eda_prev').disabled = (edaCur === 0);
+      document.getElementById('eda_next').disabled = (edaCur === edaMax);
+
+      const edots = document.querySelectorAll('#eda_dots .sdot');
+      edots.forEach((d, i) => d.classList.toggle('on', i === edaCur));
+    }
+  </script>
+</body>
+
+</html>
