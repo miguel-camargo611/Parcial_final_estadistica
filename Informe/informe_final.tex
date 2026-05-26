@@ -92,7 +92,23 @@ Para la inferencia multivariable se usaron nueve variables continuas estandariza
 
 \subsection{Análisis exploratorio}
 
-El EDA mostró asimetría positiva en contaminantes como PM2.5, PM10, CO y O3, patrón típico de distribuciones con cola derecha por episodios puntuales de contaminación urbana. Las correlaciones de Pearson más altas con Shannon fueron riqueza de especies ($r=0.846$), temperatura ($r=-0.350$), humedad ($r=0.318$), O3 ($r=-0.297$), viento ($r=-0.276$) y radiación solar ($r=-0.273$). PM2.5 y PM10 tuvieron asociación marginal débil en el análisis bivariado, aunque su comportamiento cambia al controlar por otras variables en el modelo múltiple.
+El EDA mostró asimetría positiva en contaminantes como PM2.5, PM10, CO y O3, patrón típico de distribuciones con cola derecha por episodios puntuales de contaminación urbana. El índice de Shannon presentó una distribución unimodal levemente asimétrica a la izquierda (Q1$=1.71$, Q3$=2.60$), con un pico de masa cerca de $H'=2.2$--$2.4$ y una cola hacia valores bajos debida a listas de una o pocas especies. La concentración en cero de O3 (más de 2\,000 registros en el primer bin) y la bimodalidad de humedad (valle entre 40--70\% y pico en $\sim$85\%) son rasgos diagnósticos del clima de sabana de altura de Bogotá: la humedad es alta en la mañana, desciende al mediodía y sube nuevamente con las lluvias vespertinas, mientras el O3 solo se forma en las horas de máxima radiación UV. Lluvia fue esencialmente binaria (5\,839 eventos sin lluvia vs. 339 con lluvia), justificando su tratamiento como indicador dicotómico.
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.35\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imagenes/01_shannon_distribution.png}
+        \caption{Distribución del índice de Shannon con cuartiles Q1 y Q3.}
+    \end{minipage}\hfill
+    \begin{minipage}{0.62\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{imagenes/02_environment_distributions_original.png}
+        \caption{Distribuciones de las variables ambientales en escala original. Contaminantes y radiación muestran cola derecha; humedad presenta bimodalidad diurna; O3 concentra masa en cero.}
+    \end{minipage}
+\end{figure}
+
+Las correlaciones de Pearson más altas con Shannon fueron riqueza de especies ($r=0.846$), temperatura ($r=-0.350$), humedad ($r=0.318$), O3 ($r=-0.297$), viento ($r=-0.276$) y radiación solar ($r=-0.273$). PM2.5 y PM10 tuvieron asociación marginal débil en el análisis bivariado, aunque su comportamiento cambia al controlar por otras variables en el modelo múltiple.
 
 La comparación descriptiva entre grupos extremos reveló perfiles ambientales cualitativamente distintos: las listas de alta diversidad se registraron bajo menor temperatura media (12.89 vs.~16.80 °C), mayor humedad relativa (75.47 vs.~61.23\%), menor O3 (7.22 vs.~17.28 ppb), menor viento (0.98 vs.~1.68 m/s) y notablemente menor radiación solar (125.04 vs.~289.87 W/m²). Estas diferencias apuntan a condiciones propias de horas tempranas del día y de microhábitats con mayor cobertura vegetal.
 
@@ -108,7 +124,6 @@ La comparación descriptiva entre grupos extremos reveló perfiles ambientales c
         \includegraphics[width=\textwidth]{Informe/imagenes/03_pearson_correlation_heatmap.png}
         \caption{Mapa de correlaciones entre variables ambientales y Shannon.}
     \end{minipage}
-
 \end{figure}
 
 \subsection{Distribuciones conjuntas y esperanza condicional}
@@ -300,8 +315,6 @@ PCA, PPCA y FA convergieron en identificar tres dimensiones latentes que explica
 
 \section{Conclusiones}
 
-El análisis multivariado confirmó que la diversidad de aves en Bogotá responde a una firma ambiental integrada: los microhábitats frescos, húmedos y con baja radiación y ozono ---humedales, parques arbolados y laderas en horas tempranas--- concentran la mayor riqueza avifaunística, mientras los entornos cálidos, secos y fotoquímicamente activos del mediodía urbano corresponden a la menor diversidad. Esta separación es estadísticamente robusta (prueba permutacional, $p<0.001$) y persiste tras controlar por esfuerzo de muestreo en la regresión múltiple, descartando que los patrones sean artefactos de la ciencia ciudadana. El esfuerzo de observación (duración, $\beta=0.225$) es el predictor más fuerte, pero humedad, temperatura, O3, viento, CO, NO2 y lluvia retienen efectos significativos con errores robustos HC3, lo que confirma que la señal ambiental es real. La reducción de dimensión reveló tres ejes interpretables ---clima/fotoquímica, partículas y gases de combustión--- que explican el 80\% de la variabilidad ambiental y se corresponden con tipos reales de microhábitat bogotano. El estudio es asociativo y no causal; sus limitaciones principales incluyen la asignación a la estación RMCAB más cercana, la autocorrelación temporal en las series horarias y la ausencia de covariables de cobertura vegetal. Investigaciones futuras deberían incorporar NDVI derivado de sensores remotos, modelos mixtos con efectos aleatorios por estación y período estacional, y medidas de perturbación sonora para separar con mayor precisión la señal ecológica de los sesgos del observador.
-
+El análisis multivariado confirmó que la diversidad de aves en Bogotá responde a una firma ambiental integrada: los microhábitats frescos, húmedos y con baja radiación y ozono ---humedales, parques arbolados y laderas en horas tempranas--- concentran la mayor riqueza avifaunística, mientras los entornos cálidos, secos y fotoquímicamente activos del mediodía urbano corresponden a la menor diversidad. Esta separación es estadísticamente robusta (prueba permutacional, $p<0.001$) y persiste tras controlar por esfuerzo de muestreo en la regresión múltiple, descartando que los patrones sean artefactos de la ciencia ciudadana. El esfuerzo de observación (duración, $\beta=0.225$) es el predictor más fuerte, pero humedad, temperatura, O3, viento, CO, NO2 y lluvia retienen efectos significativos con errores robustos HC3, lo que confirma que la señal ambiental es real. La reducción de dimensión reveló tres ejes interpretables ---clima/fotoquímica, partículas y gases de combustión--- que explican el 80\% de la variabilidad ambiental y se corresponden con tipos reales de microhábitat bogotano.
 
 \end{document}
-
